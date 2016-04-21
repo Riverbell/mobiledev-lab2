@@ -1,0 +1,58 @@
+PSUEDO-CODE
+
+Add video
+	Input: link, title, category, rating
+
+	Take thumbnail from link?
+
+View: video list
+	Added videos are shown in the app, thumbnails
+	Title, rating & category is shown
+	Click the thumbnail to watch the video?
+	Buttons: more info, comment
+	Possible to click "add video" from this view - circulaur plus button - pop up window?
+
+View: video view
+	Maybe embedding the video
+	Displays only the chosen video, and the information
+	Displaying comments
+	Add a new comment
+	Rate video
+	Remove video
+
+How to storage data?
+	Each video has a javascript object
+
+	videoObject = {
+		id: string [youtube-id] 
+		title: string
+		rating: 
+		category: string
+		comments: array [['name','comment'],['name','comment']]
+		thumbnail ?
+	}
+
+	Videolist
+		Array with all video objects
+
+Remove video (id)
+	tempList = videoList
+	videoList = []
+	for video in tempList
+		if(video != id)
+			videoList.push(video)
+
+getRate
+
+setRate (num)
+
+addVideo (link, title, rating, category)
+	new videoObject = {
+		id = link
+		title = title
+		rating = rating
+		category = category
+	}
+	videoList.push(videoObject)
+
+
