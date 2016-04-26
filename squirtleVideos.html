@@ -28,17 +28,22 @@
 		<div class="mini-header">
 			<h4> Already Added Videos </h4>
 		</div>
-		<div ng-repeat="x in videoList">
-			<div class="video-container">
-				<youtube-video video-id="x.id" class="thumbnailSize"></youtube-video>
-				<div class="row videoTitle">
-					<!-- this div should be clickable to get to
-						the information page with commens etc om en klickar -->
-					{{x.title}}
+		<div class="videos-container">
+			<div ng-repeat="x in videoList">
+				<div class="video-container">
+					<youtube-video video-id="x.id" class="thumbnailSize"></youtube-video>
+					<div class="row videoTitle" ng-click="videoView(x)">
+						<!-- this div should be clickable to get to
+							the information page with commens etc om en klickar ska en komma till VideoView -->
+						{{x.title}}
+					</div>
+					<div id="x.id" ng-hide="hideComments">
+						HEJ
+					</div>
 				</div>
+				<!--
+			    <input type="checkbox" ng-model="x.done"/> <span ng-bind="x.karateText"></span> -->
 			</div>
-			<!--
-		    <input type="checkbox" ng-model="x.done"/> <span ng-bind="x.karateText"></span> -->
 		</div>
 
 		<!-- ############# VideoView ############# -->
@@ -50,22 +55,23 @@
 			var app = angular.module('squirtleApp', ['youtube-embed']); 
 			app.controller('squirtleVideosCtrl', function($scope) 
 			    {
+			     $scope.hideRemove = true;
+			     $scope.hideComments = true;
+
 			    //create video list
 			    $scope.videoList = [{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: ''}, {id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: ''}, {id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: ''}];
-			    $scope.hideRemove = true;
+			   
 
 			    //create video list
 			    //$scope.videoList = [{karateText:'Rika Usama', done:false}, {karateText:'Jesse Enkamp', done:false}];
 
 			    //add new video
-			    $scope.videoAdd = function() 
-			        {//if(video !== in list utför; else;)
+			    $scope.videoAdd = function() {//if(video !== in list utför; else;)
 			        $scope.videoList.push({id: $scope.videoInput, title: $scope.titleInput, category: $scope.categoryInput});
 			        $scope.videoInput = "";
 			        };
 
-			    $scope.remove = function() 
-			        {
+			    $scope.remove = function() {
 			        var oldList = $scope.videoList;
 			        $scope.videoList = [];
 			        angular.forEach(oldList, function(x) 
@@ -73,6 +79,12 @@
 			            if (!x.done) $scope.videoList.push(x);
 			            });
 			        };
+
+			    $scope.videoView = function(x) {
+			    	console.log(x.id);
+			    	var comment = document.getElementById('x.id');
+			    	$scope.hideComments = false;
+			    }
 			 
 			 //$scope.theBestVideo = 'gnPXUhBpfDg';
 
