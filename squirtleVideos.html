@@ -24,12 +24,12 @@
 			<label for="videoInput" class="control-label">Youtube id</label>
 		    <input type="text" ng-model="videoInput" id="videoInput" size="50" placeholder="Youtube id" class="form-control"/>
 
-		    <label for="videoInput" class="control-label">Video title</label>
-		    <input type="text" ng-model="titleInput" size="50" placeholder="Video title" class="form-control"/>
+		    <label for="titleInput" class="control-label">Video title</label>
+		    <input type="text" ng-model="titleInput" id="titleInput" size="50" placeholder="Video title" class="form-control"/>
 
-		    <label for="videoInput" class="control-label">Category</label>
-		    <input type="text" ng-model="categoryInput" size="50" placeholder="Category" class="form-control"/>
-		    
+		    <label for="categoryInput" class="control-label">Category</label>
+		    <input type="text" ng-model="categoryInput" id="categoryInput" size="50" placeholder="Category" class="form-control"/>
+
 		    <button class="btn btn-primary" type="submit" style="margin-top: 10px;">Add Video</button>
 		</form>
 		</br>
@@ -77,6 +77,8 @@
 			    $scope.videoAdd = function() {//if(video !== in list utför; else;)
 			        $scope.videoList.push({id: $scope.videoInput, title: $scope.titleInput, category: $scope.categoryInput});
 			        $scope.videoInput = "";
+			        $scope.titleInput = "";
+			        $scope.categoryInput = "";
 			        };
 
 			    $scope.remove = function() {
