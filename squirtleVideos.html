@@ -95,7 +95,7 @@
 			        	title: $scope.titleInput, 
 			        	category: $scope.categoryInput, 
 			        	rating: $scope.ratingInput,
-			        	showComments: false
+			        	showComments: false	//default
 			        });
 			        $scope.videoInput = "";
 			        $scope.titleInput = "";
@@ -114,8 +114,8 @@
 
 			    $scope.videoView = function(vid) {
 			    	//console.log(vid);
-			    	if (vid.showComments == false) {
-			    		vid.showComments = true;
+			    	if (vid.showComments == false) {	//checks if the clicked video hides the comments
+			    		vid.showComments = true;		// if so, show the comments
 			    	} else if (vid.showComments == true) {
 			    		vid.showComments = false;
 			    	}
