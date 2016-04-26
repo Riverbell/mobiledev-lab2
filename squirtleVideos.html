@@ -20,7 +20,7 @@
 		<!-- ############# VideoListView ############# -->
 		<h3>Squirtle's Guide to Being a Pokémon</h3>
 		
-		<form ng-submit="videoAdd()" class="form-horizontal">
+		<form ng-submit="videoAdd()" class="form-horizontal" id="addVideoForm" ng-show="showAddVideoForm">
 			<label for="videoInput" class="control-label">Youtube id</label>
 		    <input type="text" ng-model="videoInput" id="videoInput" size="50" placeholder="Youtube id" class="form-control"/>
 
@@ -39,8 +39,10 @@
 				<option>5</option>
 			</select>
 
+		    <button class="btn btn-danger" style="margin-top: 10px;" ng-click="videoForm()">Cancel</button>
 		    <button class="btn btn-primary" type="submit" style="margin-top: 10px;">Add Video</button>
 		</form>
+		<button class="btn btn-primary" ng-click="videoForm()" ng-show="!showAddVideoForm">Add new video</button>
 		</br>
 		<div class="mini-header">
 			<h4> Already Added Videos </h4>
@@ -77,6 +79,7 @@
 			    {
 			     $scope.hideRemove = true;
 			     $scope.hideComments = true;
+			     $scope.showAddVideoForm = false;
 
 			    //create video list
 			    $scope.videoList = [
@@ -87,6 +90,15 @@
 
 			    //create video list
 			    //$scope.videoList = [{karateText:'Rika Usama', done:false}, {karateText:'Jesse Enkamp', done:false}];
+
+			    $scope.videoForm = function() { 
+			    	//$scope.showAddVideoForm = true;
+			    	if ($scope.showAddVideoForm == false) {	//checks if the clicked video hides the comments
+			    		$scope.showAddVideoForm = true;		// if so, show the comments
+			    	} else if ($scope.showAddVideoForm == true) {
+			    		$scope.showAddVideoForm = false;
+			    	}
+			    };
 
 			    //add new video
 			    $scope.videoAdd = function() {//if(video !== in list utför; else;)
