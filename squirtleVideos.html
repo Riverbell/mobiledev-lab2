@@ -5,11 +5,14 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, height=device-height initial-scale=1">
 
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>-->
 
 	<!-- added two library files to do youtube embeds -->
 	<script src="https://www.youtube.com/iframe_api"></script>
+	<script data-require="angular.js@1.3.11" data-semver="1.3.11" src="https://code.angularjs.org/1.3.11/angular.js"></script>
 	<script src="angular-youtube-embed.js"></script>
+	<script src="angular-cookies.min.js"></script>
+	<script src="angularLocalStorage.js"></script>
 	<title>SquirtleVideoApp</title>
 	<!-- Bootstrap CSS -->
 	    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
@@ -20,7 +23,7 @@
 		<!-- ############# VideoListView ############# -->
 		<h3>Squirtle's Guide to Being a Pokémon</h3>
 		
-		<form ng-submit="videoAdd()" class="form-horizontal">
+		<form ng-submit="videoAdd()" class="form-horizontal" id="addVideoForm" ng-show="showAddVideoForm">
 			<label for="videoInput" class="control-label">Youtube id</label>
 		    <input type="text" ng-model="videoInput" id="videoInput" size="50" placeholder="Youtube id" class="form-control"/>
 
@@ -39,14 +42,16 @@
 				<option>5</option>
 			</select>
 
+		    <button class="btn btn-danger" style="margin-top: 10px;" ng-click="videoForm()">Cancel</button>
 		    <button class="btn btn-primary" type="submit" style="margin-top: 10px;">Add Video</button>
 		</form>
+		<button class="btn btn-primary" ng-click="videoForm()" ng-show="!showAddVideoForm">Add new video</button>
 		</br>
 		<div class="mini-header">
 			<h4> Already Added Videos </h4>
 		</div>
 			<div class="video-container" ng-repeat="x in videoList">
-				<div class="videoTitle" ng-click="videoView =! videoView">
+				<div class="videoTitle" ng-click="videoView(x)">
 					<!-- this div should be clickable to get to
 						the information page with commens etc om en klickar ska en komma till VideoView -->
 					{{x.title}}
@@ -58,13 +63,14 @@
 					</div>
 				</div>
 			<!-- ############# VideoView ############# -->
-				<div class="information-container">
+				<div class="information-container" ng-show="x.showComments">
 					<div style="margin-top: 10px;">
 						<div class="input-group group" style="margin-bottom:5px;">
 		   					<input type="text" ng-model="commentInput" id="commentInput" size="50" placeholder="Add a Comment" class="form-control"/>
 		   					<span class="input-group-btn">
-	   					 	<button class="btn btn-secondary" type="button">Skicka</button>
+	   					 	<button class="btn btn-secondary" type="button" ng-click="addComment(x, commentInput)" type="submit">Skicka</button>
    					 		</span>
+	   		
    						 </div>
 					</div>
 					<div class="comments">
@@ -84,25 +90,47 @@
 		<!-- You can use 'youtube-video' as an element or attribute. -->
 
 		<script>
-			var app = angular.module('squirtleApp', ['youtube-embed']); 
-			app.controller('squirtleVideosCtrl', function($scope) 
+			var app = angular.module('squirtleApp', [
+				'youtube-embed',
+				'ngCookies',
+				'angularLocalStorage'
+				]); 
+			app.controller('squirtleVideosCtrl', function($scope, storage) 
 			    {
-			     $scope.hideRemove = true;
-			     $scope.hideComments = true;
+			    storage.bind($scope, 'videoList', {defaultValue: []});
+			    $scope.hideRemove = true;
+			    $scope.hideComments = true;
+			    $scope.showAddVideoForm = false;
 
 			    //create video list
 			    $scope.videoList = [
-			    	{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: 'None', rating: 5, comments: ['jesus föddes någon gång för flera flera år sedan i ett land långt långt bort', 'yeah', 'noes']}, 
-			    	{id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: 'None', rating: 3, comments: ['jesus', 'yeah']}, 
-			    	{id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: 'None', rating: 4, comments: ['yeah', 'boo']}];
+			    	{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: 'None', rating: 5, comments: ['jesus föddes någon gång för flera flera år sedan i ett land långt långt bort', 'yeah', 'noes'], showComments: false}, 
+			    	{id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: 'None', rating: 3, comments: ['jesus', 'yeah'], showComments: false}, 
+			    	{id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: 'None', rating: 4, comments: ['yeah', 'boo'], showComments: false}];
 			   
+			    //$scope.videoList = $scope.videoListTest;
 
-			    //create video list
-			    //$scope.videoList = [{karateText:'Rika Usama', done:false}, {karateText:'Jesse Enkamp', done:false}];
+			    $scope.videoForm = function() { 
+			    	//$scope.showAddVideoForm = true;
+			    	if ($scope.showAddVideoForm == false) {	//checks if the clicked video hides the comments
+			    		$scope.showAddVideoForm = true;		// if so, show the comments
+			    	} else if ($scope.showAddVideoForm == true) {
+			    		$scope.showAddVideoForm = false;
+			    	}
+			    };
 
 			    //add new video
 			    $scope.videoAdd = function() {//if(video !== in list utför; else;)
-			        $scope.videoList.push({id: $scope.videoInput, title: $scope.titleInput, category: $scope.categoryInput, rating: $scope.ratingInput});
+			        $scope.videoList.push({
+			        	id: $scope.videoInput, 
+			        	title: $scope.titleInput, 
+			        	category: $scope.categoryInput, 
+			        	rating: $scope.ratingInput,
+			        	comments: [],
+			        	showComments: false,	//default
+			        	remove: false //default
+			        });
+
 			        $scope.videoInput = "";
 			        $scope.titleInput = "";
 			        $scope.categoryInput = "";
@@ -112,23 +140,19 @@
 			    $scope.remove = function() {
 			        var oldList = $scope.videoList;
 			        $scope.videoList = [];
-			        angular.forEach(oldList, function(x) 
-			            {
-			            if (!x.done) $scope.videoList.push(x);
-			            });
-			        };
+			        angular.forEach(oldList, function(x){
+			            if (x.remove == false) {$scope.videoList.push(x);
+			            }
+			        })
+			    };
 
-			    $scope.videoView = function(x) {
-			    	//console.log(x.id);
-			    	//var comment = document.getElementById('x.id');
-			    	//$scope.hideComments = false;
-
-			    	//console.log(x);
-			    	var id = x.id;
-			    	console.log("XID", id);
-			    	var comment = document.getElementById('id');
-			    	console.log("COMMENTS DIV", comment);
-			    	comment.showComments = true;
+			    $scope.videoView = function(vid) {
+			    	//console.log(vid);
+			    	if (vid.showComments == false) {	//checks if the clicked video hides the comments
+			    		vid.showComments = true;		// if so, show the comments
+			    	} else if (vid.showComments == true) {
+			    		vid.showComments = false;
+			    	}
 			    };
 
 			    //function for creating a range
@@ -139,6 +163,14 @@
 				        input.push(i);
 				    }
 				    return input;
+				};
+
+				$scope.addComment = function(x, input,cb) {
+					console.log("X", x);
+					console.log("Comment", input);
+					x.comments.push(input);
+					
+					$scope.commentInput = "";
 				};
 			 
 			 //$scope.theBestVideo = 'gnPXUhBpfDg';
