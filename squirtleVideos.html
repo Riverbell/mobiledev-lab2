@@ -74,7 +74,7 @@
 		<div class="mini-header">
 			<h4> Already Added Videos </h4>
 		</div>
-			<div class="video-container" ng-repeat="x in videoList">
+			<div class="video-container" style="margin-top:20px" ng-repeat="x in videoList">
 				<div class="videoTitle" ng-click="videoView(x)">
 					<!-- this div should be clickable to get to
 						the information page with commens etc om en klickar ska en komma till VideoView -->
@@ -88,15 +88,12 @@
 				</div>
 			<!-- ############# VideoView ############# -->
 				<div class="information-container" ng-show="x.showComments">
-					<div style="margin-top: 10px;">
-						<div class="input-group group" style="margin-bottom:5px;">
-		   					<input type="text" ng-model="commentInput" id="commentInput" size="50" placeholder="Add a Comment" class="form-control"/>
-		   					<span class="input-group-btn">
-	   					 	<button class="btn btn-secondary" type="button" ng-click="addComment(x, commentInput)" type="submit">Skicka</button>
-   					 		</span>
-	   		
-   						 </div>
-					</div>
+					<form ng-submit="addComment(x, commentInput)" class="input-group group" style="margin-bottom:5px; margin-top: 10px">
+	   					<input type="text" ng-model="commentInput" id="commentInput" size="50" placeholder="Add a Comment" class="form-control"/>
+	   					<span class="input-group-btn">
+   					 	<button class="btn btn-secondary" type="submit">Skicka</button>
+					 		</span>
+					</form>
 					<div class="comments">
 						<ul class="listComments">
 							<li class="previousComments" ng-repeat="i in x.comments">
@@ -104,8 +101,7 @@
 							</li>
 						</ul>
 					</div>
-				
-					<button class="btn btn-primary" ng-click="remove()" style="margin-bottom: 20px;">Remove marked video</button>
+					<button class="btn btn-primary" ng-click="remove(x)">Remove marked video</button>
 				</div> <!-- end information-container -->
 			</div> <!-- end video-container -->
 				<!--
@@ -128,9 +124,9 @@
 
 			    //create video list
 			    $scope.videoList = [
-			    	{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: 'None', rating: 5, comments: ['jesus föddes någon gång för flera flera år sedan i ett land långt långt bort', 'yeah', 'noes'], showComments: false}, 
-			    	{id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: 'None', rating: 3, comments: ['jesus', 'yeah'], showComments: false}, 
-			    	{id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: 'None', rating: 4, comments: ['yeah', 'boo'], showComments: false}];
+			    	{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: 'None', rating: 5, comments: ['jesus föddes någon gång för flera flera år sedan i ett land långt långt bort', 'yeah', 'noes'], showComments: false, remove: false}, 
+			    	{id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: 'None', rating: 3, comments: ['jesus', 'yeah'], showComments: false, remove: false}, 
+			    	{id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: 'None', rating: 4, comments: ['yeah', 'boo'], showComments: false, remove: false}];
 			   
 			    //$scope.videoList = $scope.videoListTest;
 
@@ -161,13 +157,15 @@
 			        $scope.ratingInput = "";
 			        };
 
-			    $scope.remove = function() {
+			    $scope.remove = function(x) {
 			        var oldList = $scope.videoList;
+			        x.remove = true;
 			        $scope.videoList = [];
 			        angular.forEach(oldList, function(x){
-			            if (x.remove == false) {$scope.videoList.push(x);
+			            if (x.remove == false) {
+			            	$scope.videoList.push(x);
 			            }
-			        })
+			        });
 			    };
 
 			    $scope.videoView = function(vid) {
@@ -190,11 +188,11 @@
 				};
 
 				$scope.addComment = function(x, input,cb) {
-					console.log("X", x);
-					console.log("Comment", input);
+					//console.log("X", x);
+					//console.log("Comment", input);
 					x.comments.push(input);
-					
-					$scope.commentInput = "";
+					var commentInput = document.getElementById('commentInput').placeholder;//placeholder = "Add a Comment";
+					console.log("CommentInput", commentInput);
 				};
 			 
 			 //$scope.theBestVideo = 'gnPXUhBpfDg';
