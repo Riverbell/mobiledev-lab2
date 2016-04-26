@@ -21,12 +21,13 @@ h4 {
 .thumbnailSize {
 	width: 80vw;
 	height: 22vh;
+	margin-bottom: 10px;
 }
 
 .videoTitle {
 	/*width: 80vw;
-	height: 5vh;*/
-	margin-bottom: 10px;
+	height: 5vh;
+	margin-bottom: 10px;*/
 	background: #ddd;
 	padding: 5px 0;
 	font-family: helvetica;

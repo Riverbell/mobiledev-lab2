@@ -31,13 +31,13 @@
 		<div class="videos-container">
 			<div ng-repeat="x in videoList">
 				<div class="video-container">
-					<youtube-video video-id="x.id" class="thumbnailSize"></youtube-video>
-					<div class="row videoTitle" ng-click="videoView(x)">
+					<div class="videoTitle" ng-click="videoView =! videoView">
 						<!-- this div should be clickable to get to
 							the information page with commens etc om en klickar ska en komma till VideoView -->
 						{{x.title}}
 					</div>
-					<div id="x.id" ng-hide="hideComments">
+					<youtube-video video-id="x.id" class="thumbnailSize"></youtube-video>
+					<div id="x.id" ng-hide="hideComments" ng-show="x.showComments">
 						HEJ
 					</div>
 				</div>
@@ -81,9 +81,12 @@
 			        };
 
 			    $scope.videoView = function(x) {
-			    	console.log(x.id);
-			    	var comment = document.getElementById('x.id');
-			    	$scope.hideComments = false;
+			    	//console.log(x);
+			    	var id = x.id;
+			    	console.log("XID", id);
+			    	var comment = document.getElementById('id');
+			    	console.log("COMMENTS DIV", comment);
+			    	comment.showComments = true;
 			    }
 			 
 			 //$scope.theBestVideo = 'gnPXUhBpfDg';
