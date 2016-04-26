@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<!-- adjust to mobile -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, height=device-height initial-scale=1">
+
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+	<!-- added two library files to do youtube embeds -->
+	<script src="https://www.youtube.com/iframe_api"></script>
+	<script src="angular-youtube-embed.js"></script>
+	<title>SquirtleVideoApp</title>
+	<!-- Bootstrap CSS -->
+	    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+	<!-- Our stylesheet -->
+	    	<link rel="stylesheet" href="style.css">
+	<!-- jQuery -->
+	<body ng-app="squirtleApp" ng-controller="squirtleVideosCtrl">
+		<!-- ############# VideoListView ############# -->
+		<h3>Squirtle's Guide to Being a Pokémon</h3>
+		
+		<form ng-submit="videoAdd()">
+		    <input type="text" ng-model="videoInput" size="50" placeholder="Add New Video">
+		    <button class="btn btn-primary" type="submit" style="margin-top: 10px;">Add Video</button>
+		</form>
+		</br>
+		<div class="mini-header">
+			<h4> Already Added Videos </h4>
+		</div>
+		<div ng-repeat="x in videoList">
+			<div class="video-container">
+				<youtube-video video-id="x.id" class="thumbnailSize"></youtube-video>
+				<div class="row videoTitle">
+					<!-- this div should be clickable to get to
+						the information page with commens etc om en klickar -->
+					{{x.title}}
+				</div>
+			</div>
+			<!--
+		    <input type="checkbox" ng-model="x.done"/> <span ng-bind="x.karateText"></span> -->
+		</div>
+
+		<!-- ############# VideoView ############# -->
+		<button class="btn btn-primary" ng-click="remove()" ng-hide="hideRemove">Remove marked video</button>
+
+		<!-- You can use 'youtube-video' as an element or attribute. -->
+		
+		<script>
+			var app = angular.module('squirtleApp', ['youtube-embed']); 
+			app.controller('squirtleVideosCtrl', function($scope) 
+			    {
+			    //create video list
+			    $scope.videoList = [{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: ''}, {id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: ''}, {id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: ''}];
+			    $scope.hideRemove = true;
+
+			    //create video list
+			    //$scope.videoList = [{karateText:'Rika Usama', done:false}, {karateText:'Jesse Enkamp', done:false}];
+
+			    //add new video
+			    $scope.videoAdd = function() 
+			        {//if(video !== in list utför; else;)
+			        $scope.videoList.push({id: $scope.videoInput, title: $scope.titleInput, category: $scope.categoryInput});
+			        $scope.videoInput = "";
+			        };
+
+			    $scope.remove = function() 
+			        {
+			        var oldList = $scope.videoList;
+			        $scope.videoList = [];
+			        angular.forEach(oldList, function(x) 
+			            {
+			            if (!x.done) $scope.videoList.push(x);
+			            });
+			        };
+			 
+			 //$scope.theBestVideo = 'gnPXUhBpfDg';
+
+			});
+		</script>
+
+	</body>
+</html>
