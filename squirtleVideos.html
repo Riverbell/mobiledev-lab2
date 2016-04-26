@@ -45,32 +45,44 @@
 		<div class="mini-header">
 			<h4> Already Added Videos </h4>
 		</div>
-		<div class="videos-container">
-			<div ng-repeat="x in videoList">
-				<div class="video-container">
-					<div class="videoTitle" ng-click="videoView =! videoView">
-						<!-- this div should be clickable to get to
-							the information page with commens etc om en klickar ska en komma till VideoView -->
-						{{x.title}}
-					</div>
-					<youtube-video video-id="x.id" class="thumbnailSize"></youtube-video>
-					<div id="x.id" ng-hide="hideComments" ng-show="x.showComments">
-						HEJ
-					</div>
-					<div class="rating">
-							<img ng-src="pokeball2.png" ng-repeat="n in range(1,x.rating)"/>
+			<div class="video-container" ng-repeat="x in videoList">
+				<div class="videoTitle" ng-click="videoView =! videoView">
+					<!-- this div should be clickable to get to
+						the information page with commens etc om en klickar ska en komma till VideoView -->
+					{{x.title}}
+				</div>
+				<youtube-video video-id="x.id" class="thumbnailSize"></youtube-video>
+				<div class="rating">
+					<img align="left" ng-src="pokeball2.png" ng-repeat="n in range(1,x.rating)"/>
+					<div align="right"> Category: {{x.category}}
 					</div>
 				</div>
+			<!-- ############# VideoView ############# -->
+				<div class="information-container">
+					<div style="margin-top: 10px;">
+						<div class="input-group group" style="margin-bottom:5px;">
+		   					<input type="text" ng-model="commentInput" id="commentInput" size="50" placeholder="Add a Comment" class="form-control"/>
+		   					<span class="input-group-btn">
+	   					 	<button class="btn btn-secondary" type="button">Skicka</button>
+   					 		</span>
+   						 </div>
+					</div>
+					<div class="comments">
+						<ul class="listComments">
+							<li class="previousComments" ng-repeat="i in x.comments">
+								{{i}}
+							</li>
+						</ul>
+					</div>
+				
+					<button class="btn btn-primary" ng-click="remove()" style="margin-bottom: 20px;">Remove marked video</button>
+				</div> <!-- end information-container -->
+			</div> <!-- end video-container -->
 				<!--
 			    <input type="checkbox" ng-model="x.done"/> <span ng-bind="x.karateText"></span> -->
-			</div>
-		</div>
-
-		<!-- ############# VideoView ############# -->
-		<button class="btn btn-primary" ng-click="remove()" ng-hide="hideRemove">Remove marked video</button>
 
 		<!-- You can use 'youtube-video' as an element or attribute. -->
-		
+
 		<script>
 			var app = angular.module('squirtleApp', ['youtube-embed']); 
 			app.controller('squirtleVideosCtrl', function($scope) 
@@ -80,9 +92,9 @@
 
 			    //create video list
 			    $scope.videoList = [
-			    	{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: '', rating: 5}, 
-			    	{id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: '', rating: 3}, 
-			    	{id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: '', rating: 4}];
+			    	{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: 'None', rating: 5, comments: ['jesus föddes någon gång för flera flera år sedan i ett land långt långt bort', 'yeah', 'noes']}, 
+			    	{id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: 'None', rating: 3, comments: ['jesus', 'yeah']}, 
+			    	{id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: 'None', rating: 4, comments: ['yeah', 'boo']}];
 			   
 
 			    //create video list
