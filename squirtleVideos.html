@@ -48,17 +48,17 @@
 		<div class="videos-container">
 			<div ng-repeat="x in videoList">
 				<div class="video-container">
-					<div class="videoTitle" ng-click="videoView =! videoView">
+					<div class="videoTitle" ng-click="videoView(x)">
 						<!-- this div should be clickable to get to
 							the information page with commens etc om en klickar ska en komma till VideoView -->
 						{{x.title}}
 					</div>
 					<youtube-video video-id="x.id" class="thumbnailSize"></youtube-video>
-					<div id="x.id" ng-hide="hideComments" ng-show="x.showComments">
-						HEJ
-					</div>
 					<div class="rating">
 							<img ng-src="pokeball2.png" ng-repeat="n in range(1,x.rating)"/>
+					</div>
+					<div id="x.id" ng-show="x.showComments">
+						HEJ
 					</div>
 				</div>
 				<!--
@@ -80,9 +80,9 @@
 
 			    //create video list
 			    $scope.videoList = [
-			    	{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: '', rating: 5}, 
-			    	{id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: '', rating: 3}, 
-			    	{id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: '', rating: 4}];
+			    	{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: '', rating: 5, showComments: false}, 
+			    	{id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: '', rating: 3, showComments: false}, 
+			    	{id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: '', rating: 4, showComments: false}];
 			   
 
 			    //create video list
@@ -90,7 +90,13 @@
 
 			    //add new video
 			    $scope.videoAdd = function() {//if(video !== in list utför; else;)
-			        $scope.videoList.push({id: $scope.videoInput, title: $scope.titleInput, category: $scope.categoryInput, rating: $scope.ratingInput});
+			        $scope.videoList.push({
+			        	id: $scope.videoInput, 
+			        	title: $scope.titleInput, 
+			        	category: $scope.categoryInput, 
+			        	rating: $scope.ratingInput,
+			        	showComments: false
+			        });
 			        $scope.videoInput = "";
 			        $scope.titleInput = "";
 			        $scope.categoryInput = "";
@@ -106,17 +112,13 @@
 			            });
 			        };
 
-			    $scope.videoView = function(x) {
-			    	//console.log(x.id);
-			    	//var comment = document.getElementById('x.id');
-			    	//$scope.hideComments = false;
-
-			    	//console.log(x);
-			    	var id = x.id;
-			    	console.log("XID", id);
-			    	var comment = document.getElementById('id');
-			    	console.log("COMMENTS DIV", comment);
-			    	comment.showComments = true;
+			    $scope.videoView = function(vid) {
+			    	console.log(vid);
+			    	if (vid.showComments == false) {
+			    		vid.showComments = true;
+			    	} else if (vid.showComments == true) {
+			    		vid.showComments = false;
+			    	}
 			    };
 
 			    //function for creating a range
