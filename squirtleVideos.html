@@ -57,6 +57,9 @@
 					<div id="x.id" ng-hide="hideComments">
 						HEJ
 					</div>
+					<div class="rating">
+							<img ng-src="pokeball2.png" ng-repeat="n in range(1,x.rating)"/>
+					</div>
 				</div>
 				<!--
 			    <input type="checkbox" ng-model="x.done"/> <span ng-bind="x.karateText"></span> -->
@@ -76,7 +79,10 @@
 			     $scope.hideComments = true;
 
 			    //create video list
-			    $scope.videoList = [{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: ''}, {id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: ''}, {id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: ''}];
+			    $scope.videoList = [
+			    	{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: '', rating: 5}, 
+			    	{id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: '', rating: 3}, 
+			    	{id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: '', rating: 4}];
 			   
 
 			    //create video list
@@ -104,7 +110,17 @@
 			    	console.log(x.id);
 			    	var comment = document.getElementById('x.id');
 			    	$scope.hideComments = false;
-			    }
+			    };
+
+			    //function for creating a range
+			    $scope.range = function(min, max, step) {
+				    step = step || 1;
+				    var input = [];
+				    for (var i = min; i <= max; i += step) {
+				        input.push(i);
+				    }
+				    return input;
+				};
 			 
 			 //$scope.theBestVideo = 'gnPXUhBpfDg';
 
