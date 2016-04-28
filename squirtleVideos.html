@@ -123,7 +123,7 @@
 			    $scope.showAddVideoForm = false;
 
 			    //create video list
-			    $scope.videoList = [
+			    $scope.videoListTEST = [
 			    	{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: 'None', rating: 5, comments: ['jesus föddes någon gång för flera flera år sedan i ett land långt långt bort', 'yeah', 'noes'], showComments: false, remove: false}, 
 			    	{id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: 'None', rating: 3, comments: ['jesus', 'yeah'], showComments: false, remove: false}, 
 			    	{id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: 'None', rating: 4, comments: ['yeah', 'boo'], showComments: false, remove: false}];
@@ -191,8 +191,12 @@
 					//console.log("X", x);
 					//console.log("Comment", input);
 					x.comments.push(input);
-					var commentInput = document.getElementById('commentInput').placeholder;//placeholder = "Add a Comment";
-					console.log("CommentInput", commentInput);
+					//location.reload();
+					//$scope.commentInput.reset();
+					//var comment = document.getElementById('commentInput');//placeholder = "Add a Comment";
+					//comment.reset();
+
+					//console.log("CommentInput", commentInput);
 				};
 			 
 			 //$scope.theBestVideo = 'gnPXUhBpfDg';
