@@ -74,34 +74,45 @@
 		<div class="mini-header">
 			<h4> Already Added Videos </h4>
 		</div>
-		<div class="videos-container">
-			<div ng-repeat="x in videoList">
-				<div class="video-container">
-					<div class="videoTitle" ng-click="videoView(x)">
-						<!-- this div should be clickable to get to
-							the information page with commens etc om en klickar ska en komma till VideoView -->
-						{{x.title}}
-					</div>
-					<!--<youtube-video video-id="x.id" class="thumbnailSize"></youtube-video>-->
-					<a target="_blank" href="https://www.youtube.com/watch?v={{x.id}}"><img ng-src="https://img.youtube.com/vi/{{x.id}}/mqdefault.jpg"/></a>
-					<ul class="rating">
-						<li ng-repeat="n in range(1,x.rating)" ng-click="newRating(x, this)"><img ng-src="pokeball2.png" /></li>
-						<li ng-repeat="n in range(x.rating,4)" ng-click="newRating(x, this)"><img ng-src="pokeball2-dark.png"/></li>
-					</ul>
-					<div id="x.id" ng-show="x.showComments">
-						HEJ
-					</div>
+
+			<div class="video-container" style="margin-top:20px" ng-repeat="x in videoList">
+				<div class="videoTitle" ng-click="videoView(x)">
+					<!-- this div should be clickable to get to
+						the information page with commens etc om en klickar ska en komma till VideoView -->
+					{{x.title}}
 				</div>
+				<!--<youtube-video video-id="x.id" class="thumbnailSize"></youtube-video>-->
+				<a target="_blank" href="https://www.youtube.com/watch?v={{x.id}}"><img ng-src="https://img.youtube.com/vi/{{x.id}}/mqdefault.jpg"/></a>
+				<ul class="rating">
+					<!--<li><img ng-src="pokeball2.png" /></li>
+					<li><img ng-src="pokeball2.png" /></li>
+					<li><img ng-src="pokeball2.png" /></li>-->
+					<li ng-repeat="n in range(1,x.rating)" ng-click="newRating(x, this)"><img ng-src="pokeball2.png" /></li>
+					<li ng-repeat="n in range(x.rating+1,5)" ng-click="newRating(x, this)"><img ng-src="pokeball2-dark.png"/></li>
+				</ul>
+			<!-- ############# VideoView ############# -->
+				<div class="information-container" ng-show="x.showComments">
+					<form ng-submit="addComment(x, commentInput)" class="input-group group" style="margin-bottom:5px; margin-top: 10px">
+	   					<input type="text" ng-model="commentInput" id="commentInput" size="50" placeholder="Add a Comment" class="form-control"/>
+	   					<span class="input-group-btn">
+   					 	<button class="btn btn-secondary" type="submit">Skicka</button>
+					 		</span>
+					</form>
+					<div class="comments">
+						<ul class="listComments">
+							<li class="previousComments" ng-repeat="i in x.comments">
+								{{i}}
+							</li>
+						</ul>
+					</div>
+					<button class="btn btn-primary" ng-click="remove(x)">Remove marked video</button>
+				</div> <!-- end information-container -->
+			</div> <!-- end video-container -->
 				<!--
 			    <input type="checkbox" ng-model="x.done"/> <span ng-bind="x.karateText"></span> -->
-			</div>
-		</div>
-
-		<!-- ############# VideoView ############# -->
-		<button class="btn btn-primary" ng-click="remove()" ng-hide="hideRemove">Remove marked video</button>
 
 		<!-- You can use 'youtube-video' as an element or attribute. -->
-		
+
 		<script>
 			var app = angular.module('squirtleApp', [
 				'youtube-embed',
@@ -116,10 +127,10 @@
 			    $scope.showAddVideoForm = false;
 
 			    //create video list
-			    $scope.videoListTest = [
-			    	{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: '', rating: 5, showComments: false}, 
-			    	{id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: '', rating: 3, showComments: false}, 
-			    	{id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: '', rating: 4, showComments: false}];
+			    $scope.videoList = [
+			    	{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: 'None', rating: 5, comments: ['jesus föddes någon gång för flera flera år sedan i ett land långt långt bort', 'yeah', 'noes'], showComments: false, remove: false}, 
+			    	{id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: 'None', rating: 3, comments: ['jesus', 'yeah'], showComments: false, remove: false}, 
+			    	{id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: 'None', rating: 4, comments: ['yeah', 'boo'], showComments: false, remove: false}];
 			   
 			    //$scope.videoList = $scope.videoListTest;
 
@@ -145,22 +156,27 @@
 			        	title: $scope.titleInput, 
 			        	category: $scope.categoryInput, 
 			        	rating: $scope.ratingInput,
-			        	showComments: false	//default
+			        	comments: [],
+			        	showComments: false,	//default
+			        	remove: false //default
 			        });
+
 			        $scope.videoInput = "";
 			        $scope.titleInput = "";
 			        $scope.categoryInput = "";
 			        $scope.ratingInput = "";
 			        };
 
-			    $scope.remove = function() {
+			    $scope.remove = function(x) {
 			        var oldList = $scope.videoList;
+			        x.remove = true;
 			        $scope.videoList = [];
-			        angular.forEach(oldList, function(x) 
-			            {
-			            if (!x.done) $scope.videoList.push(x);
-			            });
-			        };
+			        angular.forEach(oldList, function(x){
+			            if (x.remove == false) {
+			            	$scope.videoList.push(x);
+			            }
+			        });
+			    };
 
 			    $scope.videoView = function(vid) {
 			    	//console.log(vid);
@@ -179,6 +195,14 @@
 				        input.push(i);
 				    }
 				    return input;
+				};
+
+				$scope.addComment = function(x, input,cb) {
+					//console.log("X", x);
+					//console.log("Comment", input);
+					x.comments.push(input);
+					var commentInput = document.getElementById('commentInput').placeholder;//placeholder = "Add a Comment";
+					console.log("CommentInput", commentInput);
 				};
 			 
 			 //$scope.theBestVideo = 'gnPXUhBpfDg';
