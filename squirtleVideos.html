@@ -74,17 +74,28 @@
 		<div class="mini-header">
 			<h4> Already Added Videos </h4>
 		</div>
+
 			<div class="video-container" style="margin-top:20px" ng-repeat="x in videoList">
 				<div class="videoTitle" ng-click="videoView(x)">
 					<!-- this div should be clickable to get to
 						the information page with commens etc om en klickar ska en komma till VideoView -->
 					{{x.title}}
 				</div>
-				<youtube-video video-id="x.id" class="thumbnailSize"></youtube-video>
+				<!--<youtube-video video-id="x.id" class="thumbnailSize"></youtube-video>-->
+				<a target="_blank" href="https://www.youtube.com/watch?v={{x.id}}"><img class="thumbnailSize" ng-src="https://img.youtube.com/vi/{{x.id}}/mqdefault.jpg"/></a>
+				<!--<ul class="rating">
+					<!--<li ng-repeat="n in [1,2,3,4,5]"><img ng-src="pokeball2.png" /></li>
+					<li ng-repeat="n in [1,2,3,4,5]" ng-if=""><img ng-src="pokeball2-dark.png" /></li>
+					<li ng-repeat="testFunc(x)"><img ng-src="pokeball2.png" /></li>
+					<li ng-repeat="testFunc(x)"><img ng-src="pokeball2.png" /></li>
+					<li ng-repeat="testFunc(x)"><img ng-src="pokeball2.png" /></li>
+					<li ng-repeat="testFunc(x)"><img ng-src="pokeball2.png" /></li>--
+					<li ng-repeat="n in range(1,x.rating)" ng-click="newRating(x, this)"><img ng-src="pokeball2.png" /></li>
+					<!--<li ng-repeat="n in range(x.rating,4)" ng-click="newRating(x, this)"><img ng-src="pokeball2-dark.png"/></li>--
+				</ul>-->
 				<div class="rating">
-					<img align="left" ng-src="pokeball2.png" ng-repeat="n in range(1,x.rating)"/>
-					<div align="right"> Category: {{x.category}}
-					</div>
+					<img ng-repeat="n in range(1,x.rating)" ng-src="pokeball2.png" />
+					<div class="category">Category: {{x.category}}</div>
 				</div>
 			<!-- ############# VideoView ############# -->
 				<div class="information-container" ng-show="x.showComments">
@@ -101,7 +112,7 @@
 							</li>
 						</ul>
 					</div>
-					<button class="btn btn-primary" ng-click="remove(x)">Remove marked video</button>
+					<button class="btn btn-primary" ng-click="remove(x)">Remove video</button>
 				</div> <!-- end information-container -->
 			</div> <!-- end video-container -->
 				<!--
@@ -123,12 +134,23 @@
 			    $scope.showAddVideoForm = false;
 
 			    //create video list
-			    $scope.videoListTEST = [
+
+			    $scope.videoListTest = [
+
 			    	{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: 'None', rating: 5, comments: ['jesus föddes någon gång för flera flera år sedan i ett land långt långt bort', 'yeah', 'noes'], showComments: false, remove: false}, 
 			    	{id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: 'None', rating: 3, comments: ['jesus', 'yeah'], showComments: false, remove: false}, 
 			    	{id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: 'None', rating: 4, comments: ['yeah', 'boo'], showComments: false, remove: false}];
 			   
 			    //$scope.videoList = $scope.videoListTest;
+
+			    $scope.testFunc = function(vid) { 
+			    };
+
+			    $scope.newRating = function(vid, obj) {
+			    	console.log(obj);
+			    	console.log(obj.n);
+			    	vid.rating = obj.n;
+			    };
 
 			    $scope.videoForm = function() { 
 			    	//$scope.showAddVideoForm = true;

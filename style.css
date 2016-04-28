@@ -49,7 +49,18 @@ h4 {
 	margin-left: auto;
 	margin-right: auto;
 }
-
+.rating {
+	list-style: none;
+	padding: 0;
+	text-align: left;
+}
+.rating li {
+	display: inline-block;
+}
+.category { 
+	float: right;
+	margin-top: 5px;
+}
 .information-contianer {
 	width: 100%;
 }
