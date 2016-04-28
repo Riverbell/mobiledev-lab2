@@ -57,7 +57,10 @@ h4 {
 .rating li {
 	display: inline-block;
 }
-
+.category { 
+	float: right;
+	margin-top: 5px;
+}
 .information-contianer {
 	width: 100%;
 }

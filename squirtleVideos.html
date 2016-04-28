@@ -82,14 +82,21 @@
 					{{x.title}}
 				</div>
 				<!--<youtube-video video-id="x.id" class="thumbnailSize"></youtube-video>-->
-				<a target="_blank" href="https://www.youtube.com/watch?v={{x.id}}"><img ng-src="https://img.youtube.com/vi/{{x.id}}/mqdefault.jpg"/></a>
-				<ul class="rating">
-					<!--<li><img ng-src="pokeball2.png" /></li>
-					<li><img ng-src="pokeball2.png" /></li>
-					<li><img ng-src="pokeball2.png" /></li>-->
+				<a target="_blank" href="https://www.youtube.com/watch?v={{x.id}}"><img class="thumbnailSize" ng-src="https://img.youtube.com/vi/{{x.id}}/mqdefault.jpg"/></a>
+				<!--<ul class="rating">
+					<!--<li ng-repeat="n in [1,2,3,4,5]"><img ng-src="pokeball2.png" /></li>
+					<li ng-repeat="n in [1,2,3,4,5]" ng-if=""><img ng-src="pokeball2-dark.png" /></li>
+					<li ng-repeat="testFunc(x)"><img ng-src="pokeball2.png" /></li>
+					<li ng-repeat="testFunc(x)"><img ng-src="pokeball2.png" /></li>
+					<li ng-repeat="testFunc(x)"><img ng-src="pokeball2.png" /></li>
+					<li ng-repeat="testFunc(x)"><img ng-src="pokeball2.png" /></li>--
 					<li ng-repeat="n in range(1,x.rating)" ng-click="newRating(x, this)"><img ng-src="pokeball2.png" /></li>
-					<li ng-repeat="n in range(x.rating+1,5)" ng-click="newRating(x, this)"><img ng-src="pokeball2-dark.png"/></li>
-				</ul>
+					<!--<li ng-repeat="n in range(x.rating,4)" ng-click="newRating(x, this)"><img ng-src="pokeball2-dark.png"/></li>--
+				</ul>-->
+				<div class="rating">
+					<img ng-repeat="n in range(1,x.rating)" ng-src="pokeball2.png" />
+					<div class="category">Category: {{x.category}}</div>
+				</div>
 			<!-- ############# VideoView ############# -->
 				<div class="information-container" ng-show="x.showComments">
 					<form ng-submit="addComment(x, commentInput)" class="input-group group" style="margin-bottom:5px; margin-top: 10px">
