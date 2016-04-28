@@ -105,7 +105,7 @@
 							</li>
 						</ul>
 					</div>
-					<button class="btn btn-primary" ng-click="remove(x)">Remove marked video</button>
+					<button class="btn btn-primary" ng-click="remove(x)">Remove video</button>
 				</div> <!-- end information-container -->
 			</div> <!-- end video-container -->
 				<!--
@@ -127,12 +127,15 @@
 			    $scope.showAddVideoForm = false;
 
 			    //create video list
-			    $scope.videoList = [
+			    $scope.videoListTest = [
 			    	{id: 'gnPXUhBpfDg', title: 'Tarzan - Son of man', category: 'None', rating: 5, comments: ['jesus föddes någon gång för flera flera år sedan i ett land långt långt bort', 'yeah', 'noes'], showComments: false, remove: false}, 
 			    	{id: 'CErbBAX7GWk', title: 'Baby Squirtle Being Cute', category: 'None', rating: 3, comments: ['jesus', 'yeah'], showComments: false, remove: false}, 
 			    	{id: 'aq105Ccv-uw', title: 'Squirtle learns Hydro-Pump', category: 'None', rating: 4, comments: ['yeah', 'boo'], showComments: false, remove: false}];
 			   
 			    //$scope.videoList = $scope.videoListTest;
+
+			    $scope.testFunc = function(vid) { 
+			    };
 
 			    $scope.newRating = function(vid, obj) {
 			    	console.log(obj);
